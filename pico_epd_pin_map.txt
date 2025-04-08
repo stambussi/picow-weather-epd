@@ -1,0 +1,12 @@
+RPi Pico W to Waveshare 7.5in E-Ink Display (rev2.3, 800x480 b/w) pin mapping
+- Each row indicates which Pico pin should be connected to which Display pin
+            Pico        Display
+            VSYS        PWR
+            GP13        BUSY
+            GP12        RST
+(SPI1 RX)   GP8         DC (MISO?)
+(SPI1 CSn)  GP9         CS
+(SPI1 SCK)  GP10        CLK (SCK)
+(SPI1 TX)   GP11        DIN (MOSI)
+            GND         GND
+            3V3         VCC
