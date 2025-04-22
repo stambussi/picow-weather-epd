@@ -57,6 +57,7 @@
 wl_status_t startWiFi(int *wifiRSSI)
 {
   WiFi.mode(WIFI_STA);
+  WiFi.disconnect(); // Try to disconnect from any previous connections if device entered weird state
   Serial.printf("%s '%s'", TXT_CONNECTING_TO, WIFI_SSID);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 

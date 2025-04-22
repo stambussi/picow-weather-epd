@@ -83,6 +83,9 @@ void controlLoop()
     int retries = 0;
     wl_status_t wifiStatus = (wl_status_t)0;
     bool timeConfigured = false;
+    // Initialize both of these structs to 0 on each iteration
+    owm_onecall = {};
+    owm_air_pollution = {};
 #ifdef USE_HTTP
     WiFiClient client;
 #elif defined(USE_HTTPS_NO_CERT_VERIF)
