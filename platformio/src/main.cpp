@@ -83,9 +83,8 @@ void controlLoop()
     int retries = 0;
     wl_status_t wifiStatus = (wl_status_t)0;
     bool timeConfigured = false;
-    // Initialize both of these structs to 0 on each iteration
-    owm_onecall = {};
-    owm_air_pollution = {};
+    // Clear the alerts vector so it doesn't grow every time there is an alert and eat our memory
+    owm_onecall.alerts.clear();
 #ifdef USE_HTTP
     WiFiClient client;
 #elif defined(USE_HTTPS_NO_CERT_VERIF)
@@ -242,9 +241,9 @@ screen_draw:
         }
         else
         {
-#if DISPLAY_ALERTS
-        drawAlerts(owm_onecall.alerts, CITY_STRING, dateStr);
-#endif
+            #if DISPLAY_ALERTS
+            drawAlerts(owm_onecall.alerts, CITY_STRING, dateStr);
+            #endif
         }
         drawStatusBar(statusStr, refreshTimeStr, wifiRSSI);
     } while (display.nextPage());
