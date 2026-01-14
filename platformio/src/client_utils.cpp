@@ -25,6 +25,7 @@
 #include <SPI.h>
 #include <time.h>
 #include <WiFi.h>
+#include <WiFiManager.h>
 
 // additional libraries
 #include <Adafruit_BusIO_Register.h>
@@ -56,34 +57,31 @@
  */
 wl_status_t startWiFi(int *wifiRSSI)
 {
-  WiFi.mode(WIFI_STA);
-  WiFi.disconnect(); // Try to disconnect from any previous connections if device entered weird state
-  Serial.printf("%s '%s'", TXT_CONNECTING_TO, WIFI_SSID);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+    bool success = false;
+    wl_status_t connection_status = WL_DISCONNECTED;
+    WiFiManager wm("weather_epd_wifi_cfg", "password", true);
 
-  // timeout if WiFi does not connect in WIFI_TIMEOUT ms from now
-  unsigned long timeout = millis() + WIFI_TIMEOUT;
-  wl_status_t connection_status = (wl_status_t)WiFi.status();
+    String title("RPi Pico W E-Paper Weather Display");
+    String name("PicoW-Weather-EPD");
+    String shortname("PicoW-EPD");
+    String maker("Big Chungus");
+    String version("1.0");
 
-  while ((connection_status != WL_CONNECTED) && (millis() < timeout))
-  {
-    Serial.print(".");
-    delay(50);
-    connection_status = (wl_status_t)WiFi.status();
-  }
-  Serial.println();
+    wm.setContentText(title, name, shortname, maker, version);
 
-  if (connection_status == WL_CONNECTED)
-  {
-    *wifiRSSI = WiFi.RSSI(); // get WiFi signal strength now, because the WiFi
-                            // will be turned off to save power!
-    Serial.println("IP: " + WiFi.localIP().toString());
-  }
-  else
-  {
-    Serial.printf("%s '%s'\n", TXT_COULD_NOT_CONNECT_TO, WIFI_SSID);
-  }
-  return connection_status;
+    success = wm.autoConnect();
+
+    if (success)
+    {
+        *wifiRSSI = WiFi.RSSI();
+        Serial.println("IP: " + WiFi.localIP().toString());
+        connection_status = WL_CONNECTED;
+    }
+    else
+    {
+        connection_status = WL_CONNECT_FAILED;
+    }
+    return connection_status;
 } // startWiFi
 
 /* Disconnect and power-off WiFi.

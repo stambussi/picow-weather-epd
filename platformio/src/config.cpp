@@ -46,8 +46,8 @@ const uint8_t BME_ADDRESS = 0x76; // If sensor does not work, try 0x77
 #endif
 
 // WIFI
-const char *WIFI_SSID     = "ssid_name";
-const char *WIFI_PASSWORD = "wifi_passwd";
+//const char *WIFI_SSID     = "ssid_name";
+//const char *WIFI_PASSWORD = "wifi_passwd";
 const unsigned long WIFI_TIMEOUT = 15000; // ms, WiFi connection timeout.
 
 // HTTP

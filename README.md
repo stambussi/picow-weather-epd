@@ -16,3 +16,7 @@ These changes are a combination of unused things I removed and changes to wake-u
   + This is a first attempt at implementing a low-power sleep mode for the Pico W within the arduino-pico framework. It undervolts and downclocks the Pico W CPU and then performs a low-power WFE to wait for the specified amount of time before returning the voltage and frequency to their defaults. At the time of writing this, there is progress towards a proper low-power sleep mode in the arduino-pico core, but it is unfinished.
 + Error handling
   + As noted above, each attempt in the main control loop is tried twice before entering an error state. When an error occurs, instead of filling the entire screen with the error, the error overwrites only the alert section of the display. This way, the outdated (but probably accurate) weather data is still displayed on the screen.
++ WiFiManager Integration
+  + Instead of hardcoding the WiFi SSID and password in `config.cpp`, I integrated the WiFiManager library so that the network connection can be
+    changed without having to rebuild the firmware and reflash the device.
+

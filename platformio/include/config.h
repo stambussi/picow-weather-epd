@@ -268,8 +268,8 @@ extern const uint8_t PIN_BME_SCL;
 extern const uint8_t PIN_BME_PWR;
 extern const uint8_t BME_ADDRESS;
 #endif
-extern const char *WIFI_SSID;
-extern const char *WIFI_PASSWORD;
+//extern const char *WIFI_SSID;
+//extern const char *WIFI_PASSWORD;
 extern const unsigned long WIFI_TIMEOUT;
 extern const unsigned HTTP_CLIENT_TCP_TIMEOUT;
 extern const String OWM_APIKEY;
