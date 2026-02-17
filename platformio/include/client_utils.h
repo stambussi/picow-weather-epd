@@ -21,13 +21,14 @@
 #include <Arduino.h>
 #include "api_response.h"
 #include "config.h"
+#include <WiFiManager.h>
 #ifdef USE_HTTP
   #include <WiFiClient.h>
 #else
   #include <WiFiClientSecure.h>
 #endif
 
-wl_status_t startWiFi(int *wifiRSSI);
+wl_status_t startWiFi(WiFiManager *wm, int *wifiRSSI);
 void killWiFi();
 void configTzTime(const char *tz, const char *s1, const char *s2);
 bool getLocalTime(tm *info);

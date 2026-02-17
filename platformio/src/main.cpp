@@ -21,6 +21,7 @@
 #include <time.h>
 #include <WiFi.h>
 #include <Wire.h>
+#include <WiFiManager.h>
 
 #include "pico/stdlib.h"
 #include "hardware/clocks.h"
@@ -70,7 +71,7 @@ void lowPowerSleep(uint32_t sleepMs)
     set_sys_clock_khz(125000, true); // set system clock back to 125 mhz (og 133, but slightly lower is fine)
 }
 
-void controlLoop()
+void controlLoop(WiFiManager *wm)
 {
     uint64_t sleepDurationMs = SLEEP_DURATION * 60 * 1000;
     String errMsg1 = {};
@@ -107,7 +108,7 @@ void controlLoop()
     // Try to connect twice
     while (wifiStatus != WL_CONNECTED && retries < 2)
     {
-        wifiStatus = startWiFi(&wifiRSSI);
+        wifiStatus = startWiFi(wm, &wifiRSSI);
         retries++;
     }
     if (wifiStatus != WL_CONNECTED)
@@ -263,9 +264,25 @@ void setup()
     SPIClassRP2040 SPIn(spi1, PIN_EPD_MISO, PIN_EPD_CS, PIN_EPD_SCK, PIN_EPD_MOSI);
     display.epd2.selectSPI(SPIn, SPISettings(4000000, MSBFIRST, SPI_MODE0));
 
+    WiFiManager wm("weather_epd_wifi_cfg", "password", true);
+
+    String title("RPi Pico W E-Paper Weather Display");
+    String name("PicoW-Weather-EPD");
+    String shortname("PicoW-EPD");
+    String maker("Big Chungus");
+    String version("1.0");
+
+    wm.setContentText(title, name, shortname, maker, version);
+
+    if(!wm.autoConnect())
+    {
+        Serial.println("WiFiManager error. Try rebooting device.");
+        return;
+    }
+
     for (;;)
     {
-        controlLoop();
+        controlLoop(&wm);
     }
 } // end setup
 

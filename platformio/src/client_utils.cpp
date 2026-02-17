@@ -55,21 +55,12 @@
  *
  * Returns WiFi status.
  */
-wl_status_t startWiFi(int *wifiRSSI)
+wl_status_t startWiFi(WiFiManager *wm, int *wifiRSSI)
 {
-    bool success = false;
-    wl_status_t connection_status = WL_DISCONNECTED;
-    WiFiManager wm("weather_epd_wifi_cfg", "password", true);
+    bool success;
+    wl_status_t connection_status;
 
-    String title("RPi Pico W E-Paper Weather Display");
-    String name("PicoW-Weather-EPD");
-    String shortname("PicoW-EPD");
-    String maker("Big Chungus");
-    String version("1.0");
-
-    wm.setContentText(title, name, shortname, maker, version);
-
-    success = wm.autoConnect();
+    success = wm->autoConnect();
 
     if (success)
     {
@@ -89,7 +80,8 @@ wl_status_t startWiFi(int *wifiRSSI)
 void killWiFi()
 {
   Serial.println("Turning off WiFi module");
-  WiFi.disconnect();
+  WiFi.disconnect(true);
+  delay(100);
   WiFi.mode(WIFI_OFF);
 } // killWiFi
 
