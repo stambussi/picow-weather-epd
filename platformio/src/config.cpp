@@ -17,6 +17,7 @@
 
 #include <Arduino.h>
 #include "config.h"
+#include "apikey.h"
 
 // PINS
 // The configuration below is intended for use with the project's official 
@@ -60,7 +61,7 @@ const unsigned HTTP_CLIENT_TCP_TIMEOUT = 20000; // ms
 
 // OPENWEATHERMAP API
 // OpenWeatherMap API key, https://openweathermap.org/
-const String OWM_APIKEY   = "apikey";
+const String OWM_APIKEY   = OPENWEATHER_APIKEY;
 const String OWM_ENDPOINT = "api.openweathermap.org";
 // OpenWeatherMap One Call 2.5 API is deprecated for all new free users
 // (accounts created after Summer 2022).

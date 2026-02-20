@@ -61,8 +61,8 @@ void lowPowerSleep(uint32_t sleepMs)
     vreg_set_voltage(VREG_VOLTAGE_0_95); // 0.85V did not work, 0.95V seems pretty stable
 
     Serial.print("Sleeping for ");
-    Serial.print(sleepMs * 1000);
-    Serial.println(" s");
+    Serial.print(sleepMs);
+    Serial.println(" ms");
     sleep_ms(sleepMs);
 
     Serial.println("Waking up from sleep and exiting low-power state");
@@ -257,7 +257,6 @@ screen_draw:
 // Program entry point.
 void setup()
 {
-
     Serial.begin(115200);
     delay(500);
     // SPI needs to be initialized here
@@ -273,12 +272,6 @@ void setup()
     String version("1.0");
 
     wm.setContentText(title, name, shortname, maker, version);
-
-    if(!wm.autoConnect())
-    {
-        Serial.println("WiFiManager error. Try rebooting device.");
-        return;
-    }
 
     for (;;)
     {

@@ -57,21 +57,17 @@
  */
 wl_status_t startWiFi(WiFiManager *wm, int *wifiRSSI)
 {
-    bool success;
     wl_status_t connection_status;
 
-    success = wm->autoConnect();
-
-    if (success)
+    wm->autoConnect(true, false);
+    connection_status = (wl_status_t)WiFi.status();
+    *wifiRSSI = 0;
+    if(connection_status == WL_CONNECTED)
     {
         *wifiRSSI = WiFi.RSSI();
         Serial.println("IP: " + WiFi.localIP().toString());
-        connection_status = WL_CONNECTED;
     }
-    else
-    {
-        connection_status = WL_CONNECT_FAILED;
-    }
+
     return connection_status;
 } // startWiFi
 
